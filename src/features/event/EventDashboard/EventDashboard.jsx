@@ -1,6 +1,7 @@
 import React from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Button } from 'semantic-ui-react'
 import EventList from '../EventList/EventList'
+import EventForm from '../EventForm/EventForm'
 
 const EventDashboard = () => {
   return (
@@ -9,7 +10,8 @@ const EventDashboard = () => {
         <EventList />
       </Grid.Column>
       <Grid.Column width={6}>
-        <h2>Right Column</h2>
+        <Button positive content="Create Event" />
+        <EventForm />
       </Grid.Column>
     </Grid>
   )
