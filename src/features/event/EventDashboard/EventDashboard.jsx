@@ -3,11 +3,11 @@ import { Grid, Button } from 'semantic-ui-react'
 import EventList from '../EventList/EventList'
 import EventForm from '../EventForm/EventForm'
 import cuid from 'cuid';
+import { connect } from 'react-redux';
 
 
 class EventDashboard extends Component {
   state = {
-    events: eventsFromDashboard,
     isOpen: false,
     selectedEvent: null
   }
@@ -67,7 +67,8 @@ class EventDashboard extends Component {
     })
   }
   render() {
-    const { events, isOpen, selectedEvent } = this.state;
+    const { isOpen, selectedEvent } = this.state;
+    const { events } = this.props;
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -82,4 +83,8 @@ class EventDashboard extends Component {
   }
 }
 
-export default EventDashboard
+const mapState = state => ({
+  events: state.events
+})
+
+export default connect(mapState)(EventDashboard)
