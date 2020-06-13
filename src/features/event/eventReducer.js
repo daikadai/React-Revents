@@ -65,7 +65,7 @@ const updateEvent = (state, payload) => {
 
 const deleteEvent = (state,payload) => {
   return [
-    ...state.filter(event => event.id !== payload.event.id)
+    ...state.filter(event => event.id !== payload.eventId)
   ]
 }
 

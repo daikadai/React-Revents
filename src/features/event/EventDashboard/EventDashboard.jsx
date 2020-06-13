@@ -4,6 +4,7 @@ import EventList from '../EventList/EventList'
 import EventForm from '../EventForm/EventForm'
 import cuid from 'cuid';
 import { connect } from 'react-redux';
+import { createEvent, deleteEvent, updateEvent } from '../eventActions';
 
 
 class EventDashboard extends Component {
@@ -19,23 +20,15 @@ class EventDashboard extends Component {
   // }
 
   handleUpdateEvent = (updateEvent) => {
+    this.props.updateEvent(updateEvent)
     this.setState(({events}) => ({
-      events: events.map(event => {
-        if(event.id === updateEvent.id) {
-          return {...updateEvent}
-        } else {
-          return event;
-        }
-      }),
       isOpen: false,
       selectedEvent: null
     }))
   }
 
   handleDeleteEvent = id => {
-    this.setState(({events}) => ({
-      events: events.filter(event => event.id !== id)
-    }))
+    this.props.deleteEvent(id);
   }
 
   handleCreateFormOpen = () => {
@@ -54,8 +47,8 @@ class EventDashboard extends Component {
   handleCreateEvent = (newEvent) => {
     newEvent.id = cuid();
     newEvent.hostPhotoURL = '/assets/user.png';
+    this.props.createEvent(newEvent);
     this.setState(({events}) => ({
-      events: [...events, newEvent],
       isOpen: false
     }))
   }
@@ -87,4 +80,10 @@ const mapState = state => ({
   events: state.events
 })
 
-export default connect(mapState)(EventDashboard)
+const actions = {
+  createEvent,
+  updateEvent,
+  deleteEvent
+}
+
+export default connect(mapState, actions)(EventDashboard)
