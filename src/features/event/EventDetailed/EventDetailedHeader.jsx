@@ -19,7 +19,6 @@ const EventDetailedHeader = () => {
     <Segment.Group>
           <Segment basic attached="top" style={{ padding: '0' }}>
             <Image src="/assets/categoryImages/drinks.jpg" fluid style={eventImageStyle}/>
-    
             <Segment basic style={eventImageTextStyle}>
               <Item.Group>
                 <Item>
