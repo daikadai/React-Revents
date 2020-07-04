@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { createEvent, updateEvent } from "../eventActions";
 import cuid from "cuid";
 import { reduxForm, Field } from "redux-form";
+import TextInput from "../../../app/common/form/TextInput";
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -42,15 +43,15 @@ class EventForm extends Component {
     e.preventDefault();
     if (this.state.id) {
       this.props.updateEvent(this.state);
-      this.props.history.push(`/events/${this.state.id}`)
+      this.props.history.push(`/events/${this.state.id}`);
     } else {
       const newEvent = {
         ...this.state,
         id: cuid(),
-        hostPhotoUrl: '/assets/user.png'
-      }
+        hostPhotoUrl: "/assets/user.png",
+      };
       this.props.createEvent(newEvent);
-      this.props.history.push(`/events`)
+      this.props.history.push(`/events`);
     }
   };
 
@@ -65,7 +66,7 @@ class EventForm extends Component {
     return (
       <Segment>
         <Form onSubmit={this.handleSubmit} autoComplete="off">
-          <Field name='title' component='input' placeholder="Event title"/>
+          <Field name="title" component={TextInput} placeholder="Event title" />
           {/* <Form.Field>
             <label>Event Title</label>
             <input
@@ -124,4 +125,6 @@ class EventForm extends Component {
   }
 }
 
-export default connect(mapState, {createEvent, updateEvent})(reduxForm({form: 'eventForm'})(EventForm));
+export default connect(mapState, { createEvent, updateEvent })(
+  reduxForm({ form: "eventForm" })(EventForm)
+);
