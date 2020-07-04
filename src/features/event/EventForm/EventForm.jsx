@@ -7,6 +7,7 @@ import TextInput from "../../../app/common/form/TextInput";
 import TextArea from "../../../app/common/form/TextArea";
 import SelectInput from "../../../app/common/form/SelectInput";
 import cuid from "cuid";
+import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from "revalidate";
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -21,6 +22,17 @@ const mapState = (state, ownProps) => {
     initialValues: event,
   };
 };
+
+const validate = combineValidators({
+  title: isRequired({ message: 'The event title is required'}),
+  category: isRequired({ message: 'The category is required'}),
+  description: composeValidators(
+    isRequired({ message: 'Please enter a description'}),
+    hasLengthGreaterThan(4)({ message: 'Description need to be at least 5 characters'})
+  )(),
+  city: isRequired('city'),
+  venue: isRequired('venue')
+})
 
 const category = [
   {key: 'drinks', text: 'Drinks', value: 'drinks'},
@@ -51,7 +63,7 @@ class EventForm extends Component {
 
 
   render() {
-    const { history, initialValues } = this.props;
+    const { history, initialValues, invalid, submitting, pristine } = this.props;
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -91,7 +103,7 @@ class EventForm extends Component {
                 component={TextInput}
                 placeholder="Event Date"
               />
-              <Button positive type="submit">
+              <Button disabled={invalid || submitting || pristine} positive type="submit">
                 Submit
               </Button>
               <Button onClick={initialValues.id ? 
@@ -108,5 +120,5 @@ class EventForm extends Component {
 }
 
 export default connect(mapState, { createEvent, updateEvent })(
-  reduxForm({ form: "eventForm" })(EventForm)
+  reduxForm({ form: "eventForm", validate })(EventForm)
 );
