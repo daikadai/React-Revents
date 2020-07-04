@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
+import { Segment, Form, Button, Grid, Header} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { createEvent, updateEvent } from "../eventActions";
 import cuid from "cuid";
 import { reduxForm, Field } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
+import TextArea from "../../../app/common/form/TextArea";
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -53,7 +54,7 @@ class EventForm extends Component {
             <Form onSubmit={this.handleSubmit} autoComplete="off">
             <Field name="title" component={TextInput} placeholder="Give your event a name" />
             <Field name="category" component={TextInput} placeholder="What is your event about ?" />
-            <Field name="description" component={TextInput} placeholder="Tell us about your event" />
+            <Field name="description" component={TextArea} rows="3" placeholder="Tell us about your event" />
             <Header sub color="teal" content="Event Location Details" />
             <Field name="city" component={TextInput} placeholder="Event City" />
             <Field name="venue" component={TextInput} placeholder="Event Venue" />
